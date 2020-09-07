@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Todo list</title>
+
+    </head>
+
+    <body>
+	
+	  <h1>Anar's Todo List</h1>
+	  
+	  <button id="displayTodos"> Display Todos </button>
+	  <button id="toggleAll"> Toggle All </button>
+
+        <script>
+		// Todo list object that contains all the variables and the functions
+            var todoList = {
+                todos: [],
+				
+				// Function displaying the todos 
+                displayTodos: function(){		
+					if(this.todos.length===0){
+						console.log("todo list is empty");
+					}else{
+						console.log("My todos: ");
+						for (var i=0; i<this.todos.length; i++){
+							
+							if(this.todos[i].completed === 1){
+								console.log('(x)', this.todos[i].todoText);
+								
+							}else{
+								console.log('( )', this.todos[i].todoText);
+							}
+						}
+					}
+					//if there are no todos then display that the todo list is empty
+					// if there are todos then do it like normal
+                },
+				
+				//Function adding the todos to the list
+                addTodo: function(todoText){
+                  this.todos.push({
+                      todoText:todoText,
+                      completed: 0
+                  });
+                 this.displayTodos();
+                },
+	
+                changeTodo: function(position, todoText){
+                    this.todos[position].todoText=todoText;
+                    this.displayTodos();
+                },
+				
+                deleteTodo: function(position){
+                    this.todos.splice(position,1);
+                    this.displayTodos();
+                },
+				
+                toggleCompleted: function(position){
+                    var todo = this.todos[position];
+                    todo.completed  = 1 - todo.completed
+                    this.displayTodos();
+                }, 
+				
+				
+				
+				// Behaviour description: if all of the items are completed then it sets them to non-completed if at least one of the items not completed then all of them are set to completed
+				toggleAll: function(){
+					var totalTodos = this.todos.length;
+					var completedTodos = 0;
+					
+					for(var i=0; i<totalTodos;i++){
+						if(this.todos[i].completed === 1){
+							completedTodos++;
+						}
+					}				
+
+					
+					// Behavioural Case 1:  if all todos are completed we set all of the to  unclompleted
+					if ( completedTodos === totalTodos){
+						for (var i=0;i<totalTodos;i++){
+								this.todos[i].completed = 0;
+							}
+					}
+					// Behavioural Case 2: Otherwise, make everything true
+					else{
+						for (var i=0;i<totalTodos;i++){
+								this.todos[i].completed = 1;
+							}
+					}
+					
+					this.displayTodos();
+				},
+				
+				
+				
+				
+            };
+
+        
+           todoList.addTodo("Hey");
+           todoList.changeTodo(0, 'fuh');
+           todoList.addTodo("Meh");
+		   
+		   // Create a variable for the display todo button
+		   var displayTodoBtn = document.getElementById("displayTodos");
+		   var toggleAllBtn = document.getElementById("toggleAll");
+		   
+		   //display todo list on click of the button
+		   displayTodoBtn.addEventListener('click',  function(){
+				todoList.displayTodos();
+		   });
+		   
+		   // toggle all on the click of the button
+		   toggleAllBtn.addEventListener('click', function(){
+				todoList.toggleAll();
+		   });
+		   
+		   
+
+        </script>
+    </body>
+
+</html>
